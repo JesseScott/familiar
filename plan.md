@@ -300,6 +300,18 @@ Acceptance after 2 weeks:
 - Project builds, Compose app launches, DB schema generates, domain models + use-cases implemented with unit tests passing, and a basic campaign list screen wired to a stubbed or real data source.
 
 
----
+## Repository status & run instructions
+Current repo uses a single Kotlin Multiplatform module named `:composeApp` (declared in `settings.gradle.kts`). `composeApp` contains the shared code under `src/commonMain` and platform-specific code under the usual source sets (for example `jvmMain` for Desktop). Key entry points and files already present:
 
-If you want, I can now apply this updated `plan.md` into the repository (already done), open it for review, and/or create the initial Gradle/module scaffolding and Compose + SQLDelight config next. Which would you like me to do now?
+- `composeApp/src/commonMain/kotlin/` — shared Compose UI and common Kotlin code (e.g. `App.kt`).
+- `composeApp/src/jvmMain/kotlin/` — Desktop-specific launcher (e.g. `main.kt`) and JVM platform adapters.
+- `composeApp/build.gradle.kts` — Kotlin Multiplatform + Compose targets are configured here.
+
+Run (development):
+- Desktop (JVM): `./gradlew :composeApp:run`  (Windows: `.\gradlew.bat :composeApp:run`)
+- Android debug: `./gradlew :composeApp:assembleDebug` (Windows: `.\gradlew.bat :composeApp:assembleDebug`)
+- Web (Wasm): `./gradlew :composeApp:wasmJsBrowserDevelopmentRun` (Windows: `.\gradlew.bat :composeApp:wasmJsBrowserDevelopmentRun`)
+- Web (JS): `./gradlew :composeApp:jsBrowserDevelopmentRun` (Windows: `.\gradlew.bat :composeApp:jsBrowserDevelopmentRun`)
+
+Notes:
+- For minimal friction and to avoid large refactors, we'll keep using `composeApp` as the single KMP module for the MVP and add SQLDelight and shared domain code into `composeApp/src/commonMain` and platform adapters into `jvmMain`.
