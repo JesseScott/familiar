@@ -36,27 +36,19 @@ Optional alternatives:
 
 
 ## 3. Updated project structure (recommended)
-- `shared/`
+- `composeApp/`
     - `src/commonMain/kotlin/`
         - `domain/` (models, use-cases, validation)
-        - `ports/` (repository interfaces)
+        - `data/` (repository interfaces)
         - `utils/` (date, serialization helpers)
+        - `ui/` (shared Compose components, themes)
+        - `sql/` (shared SQLDelight schema so generated models are shared)
     - `src/commonTest/`
     - `src/jvmMain/` (platform DB adapters for desktop)
     - `sqldelight/` (schema files shared)
     - `build.gradle.kts`
-- `desktopApp/`
-    - `src/main/kotlin/`
-        - `ui/` (Compose screens)
-        - `navigation/`
-        - `App.kt` (launcher)
-    - `resources/` (icons, seed data)
 - `build.gradle.kts` (root)
 - `settings.gradle.kts`
-
-Notes:
-- Keep SQLDelight schema under `shared/sqldelight/` so generated models are shared.
-- Add `samples/` or `seeddata/` under `desktopApp/resources` for testing and onboarding.
 
 
 ## 4. MVP features (prioritized)
@@ -69,13 +61,13 @@ P1 (Core)
 5. Simple navigation & UI: sidebar with campaigns, list/detail panes, entry editor.
 
 P2 (Usability polish)
-6. Search/filtering (campaign, character, date, tags).
-7. Export/import JSON for backup.
-8. Sample seed data and onboarding.
+1. Search/filtering (campaign, character, date, tags).
+2. Export/import JSON for backup.
+3. Sample seed data and onboarding.
 
 P3 (Future)
-9. Web/Mobile ports reusing shared logic.
-10. SRD/RuleSystem import & parser.
+1. Web/Mobile ports reusing shared logic.
+2. SRD/RuleSystem import & parser.
 
 MVP scope: implement all P1 items; add 1-2 P2 items only if time allows.
 
@@ -88,20 +80,20 @@ Phase A — Project setup (Goal: scaffolding, build, DB tooling)
 A1. Create project modules & Gradle skeleton
 - Goal: repo modules created and Gradle structure in place.
 - Inputs: repository, Gradle wrapper.
-- Outputs: `shared/`, `desktopApp/`, root `build.gradle.kts` skeleton.
-- Acceptance: `./gradlew projects` or `./gradlew :desktopApp:assemble` runs without unresolved plugin errors.
+- Outputs: `composepApp/`, root `build.gradle.kts` skeleton.
+- Acceptance: `./gradlew projects` or `./gradlew :composepApp:assemble` runs without unresolved plugin errors.
 - Effort: 4–6h
 - Dependencies: none
 
 A2. Add Compose Multiplatform desktop setup
 - Goal: minimal Compose desktop app runs.
 - Inputs: Compose plugin samples.
-- Outputs: `desktopApp` build config + `App.kt` launching an empty window.
-- Acceptance: Desktop window launches via `./gradlew :desktopApp:run`.
+- Outputs: `composepApp` build config + `App.kt` launching an empty window.
+- Acceptance: Desktop window launches via `./gradlew :composepApp:run`.
 - Effort: 3–4h
 - Dependencies: A1
 
-A3. Configure SQLDelight in `shared`
+A3. Configure SQLDelight in `/sql`
 - Goal: SQLDelight plugin configured; initial schema created.
 - Inputs: SQLDelight docs, schema definition for campaigns/characters/entries.
 - Outputs: `.sq` files, generated Kotlin interfaces.
@@ -199,7 +191,7 @@ D4. Character screens (list/create/edit)
 - Dependencies: D3
 
 D5. Journal entry list & editor
-- Goal: lightweight editor (plain text or markdown) for entries.
+- Goal: lightweight editor (plain text or Markdown) for entries.
 - Inputs: use-cases and UI patterns.
 - Outputs: editor screen, save flow, list view.
 - Acceptance: create/view/edit entries persisted and retrievable.
