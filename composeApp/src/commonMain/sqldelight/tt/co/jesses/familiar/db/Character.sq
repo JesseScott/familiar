@@ -1,0 +1,21 @@
+CREATE TABLE Character (
+    id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    bio TEXT,
+    campaign_id INTEGER NOT NULL,
+    created_at INTEGER NOT NULL,
+    FOREIGN KEY(campaign_id) REFERENCES Campaign(id) ON DELETE CASCADE
+);
+
+selectAll:
+SELECT * FROM Character;
+
+selectByCampaignId:
+SELECT * FROM Character WHERE campaign_id = ?;
+
+insert:
+INSERT INTO Character(name, bio, campaign_id, created_at)
+VALUES (?, ?, ?, ?);
+
+deleteById:
+DELETE FROM Character WHERE id = ?;
