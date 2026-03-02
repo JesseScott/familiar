@@ -1,0 +1,4 @@
+root = true
+
+[**/build/**]
+disabled_rules = standard:class-naming,standard:function-naming,standard:filename
