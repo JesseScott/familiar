@@ -18,7 +18,6 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Suppress("ktlint:standard:function-naming")
 @Preview
 @Composable
 fun AppAndroidPreview() {
